@@ -1,0 +1,34 @@
+http :8080?name=adam
+
+http :8080/books?fromYear=1992
+http :8080/books fromYear==1992 limit==1
+
+http :8080/books/???
+
+http://localhost:8080/swagger/index.html
+
+//
+
+case class Year(year: Int)
+case class Book(id: UUID, title: String, year: Year)
+case class ErrorInfo(statusCode: StatusCode, msg: String)
+
+//
+
+  val books = List(
+    Book(UUID.randomUUID(), "Lords and Ladies", Year(1992)),
+    Book(UUID.randomUUID(), "The Sorrows of Young Werther", Year(1774)),
+    Book(UUID.randomUUID(), "Iliad", Year(-8000)),
+    Book(UUID.randomUUID(), "Nad Niemnem", Year(1888)),
+    Book(UUID.randomUUID(), "The Pelican Brief", Year(1992)),
+    Book(UUID.randomUUID(), "The Art of Computer Programming", Year(1968)),
+    Book(UUID.randomUUID(), "The English Patient", Year(1992)),
+    Book(UUID.randomUUID(), "Pharaoh", Year(1897))
+  )
+
+//
+
+implicit val actorSystem: ActorSystem = ActorSystem()
+implicit val materializer: ActorMaterializer = ActorMaterializer()
+val routes: Route = getBooksRoute ~ getBookRoute ~ new SwaggerUI(Docs.yml).routes
+Await.result(Http().bindAndHandle(routes, "localhost", 8080), 1.minute)

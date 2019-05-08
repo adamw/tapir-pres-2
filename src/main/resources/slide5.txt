@@ -1,0 +1,10 @@
+Annotations: fallout
+--------------------
+
+* TRADE certainty & control FOR fast & convenient bootstrap
+
+* limited EXPLORABILITY
+
+* MAGIC
+
+* RUN-TIME verification

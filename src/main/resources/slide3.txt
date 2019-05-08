@@ -1,0 +1,10 @@
+Annotations: the good
+---------------------
+
+* non-invasive
+
+* separation of meta-data and business logic
+
+* close to referenced elements
+
+* can be inspected statically & at run-time

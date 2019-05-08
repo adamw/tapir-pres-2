@@ -1,0 +1,8 @@
+Case study: HTTP endpoints
+--------------------------
+
+* Java itself is not enough
+
+* we'll use Scala for its flexibility & functional programming features
+  - simple, immutable data structures
+  - functions which interpret the data

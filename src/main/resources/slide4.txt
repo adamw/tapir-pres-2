@@ -1,0 +1,10 @@
+Annotations: the bad
+--------------------
+
+* @-driven containers
+
+* we program the containers, using annotations
+
+* java == core java + annotations
+
+* non-typesafe, limited, non-composable language

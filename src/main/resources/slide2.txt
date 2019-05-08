@@ -1,0 +1,8 @@
+Annotations
+-----------
+
+* in Java from 2004
+
+* eliminated XML programming
+
+* introduced annotation programming
