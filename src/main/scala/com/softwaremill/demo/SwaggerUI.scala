@@ -9,13 +9,13 @@ class SwaggerUI(yml: String) {
   private val SwaggerYml = "swagger.yml"
 
   private val redirectToIndex: Route =
-    redirect(s"/swagger/index.html?url=/swagger/$SwaggerYml", StatusCodes.PermanentRedirect) //
+    redirect(s"/docs/index.html?url=/docs/$SwaggerYml", StatusCodes.PermanentRedirect)
 
   val routes: Route =
-    path("swagger") {
+    path("docs") {
       redirectToIndex
     } ~
-      pathPrefix("swagger") {
+      pathPrefix("docs") {
         path("") { // this is for trailing slash
           redirectToIndex
         } ~

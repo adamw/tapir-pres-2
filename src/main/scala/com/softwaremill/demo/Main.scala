@@ -9,6 +9,8 @@ import akka.stream.ActorMaterializer
 import akka.http.scaladsl.server.Directives._
 import tapir.model.{StatusCode, StatusCodes}
 import tapir.openapi.OpenAPI
+import tapir.json.circe._
+import io.circe.generic.auto._
 
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
@@ -34,16 +36,16 @@ object Main extends App {
   )
 
   import tapir._
-  import tapir.json.circe._
-  import io.circe.generic.auto._
 
   object V1 {
-    val getBooksEndpoint: Endpoint[(Int, Option[Int]), String, List[Book], Nothing] = endpoint
+    // GET /books?year=...&limit=... (parameters optional) -> json list of books
+    val getBooksEndpoint: Endpoint[(Option[Int], Option[Int]), String, List[Book], Nothing] = endpoint
       .get
-      .in("books").in(query[Int]("year")).in(query[Option[Int]]("limit"))
+      .in("books").in(query[Option[Int]]("year")).in(query[Option[Int]]("limit"))
       .errorOut(stringBody)
       .out(jsonBody[List[Book]])
 
+    // GET /book/c5e41285-a229-419a-93f3-1a834842b352 -> json book
     val getBookEndpoint: Endpoint[UUID, String, Book, Nothing] = endpoint
       .get
       .in("books" / path[UUID]("bookId"))
@@ -73,8 +75,8 @@ object Main extends App {
 
     val getBookEndpoint: Endpoint[UUID, ErrorInfo, Book, Nothing] = baseEndpoint
       .get
-      .in("books" / path[UUID]("bookId"))
-      .out(jsonBody[Book])
+      .in(path[UUID]("bookId"))
+      .out(jsonBody[Book].example(books.head))
   }
 
   object Docs {
@@ -106,10 +108,13 @@ object Main extends App {
       }
     }
 
-    implicit val actorSystem: ActorSystem = ActorSystem()
-    implicit val materializer: ActorMaterializer = ActorMaterializer()
-    val routes: Route = getBooksRoute ~ getBookRoute ~ new SwaggerUI(Docs.yml).routes
-    Await.result(Http().bindAndHandle(routes, "localhost", 8080), 1.minute)
+    def start() {
+      implicit val actorSystem: ActorSystem = ActorSystem()
+      implicit val materializer: ActorMaterializer = ActorMaterializer()
+      val routes: Route = getBooksRoute ~ getBookRoute ~ new SwaggerUI(Docs.yml).routes
+      Await.result(Http().bindAndHandle(routes, "localhost", 8080), 1.minute)
+    }
   }
 
+  Server.start()
 }

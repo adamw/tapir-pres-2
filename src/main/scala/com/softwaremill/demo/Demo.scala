@@ -9,6 +9,8 @@ import akka.stream.ActorMaterializer
 import akka.http.scaladsl.server.Directives._
 import tapir.model.{StatusCode, StatusCodes}
 import tapir.openapi.OpenAPI
+import tapir.json.circe._
+import io.circe.generic.auto._
 
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
