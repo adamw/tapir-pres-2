@@ -26,6 +26,8 @@ object UsingJaxRs {
     override def getConverter[T](rawType: Class[T], genericType: Type, annotations: Array[Annotation]): ParamConverter[T] = ???
   }
 
+  //
+
   // GET /books?year=...&limit=... (parameters optional) -> json list of books
   // GET /book/c5e41285-a229-419a-93f3-1a834842b352 -> json book
 
@@ -33,8 +35,14 @@ object UsingJaxRs {
     @GET
     @Path("/books")
     @Produces(Array(MediaType.APPLICATION_JSON))
-    def getBooks(@QueryParam("year") year: Year, @QueryParam("limit") limit: Integer): Response = {
-      Response.status(Response.Status.OK).entity(???).`type`(MediaType.APPLICATION_JSON).build
+    def getBooks(@QueryParam("year") year: Year,
+                 @QueryParam("limit") limit: Integer): Response = {
+
+      Response
+        .status(Response.Status.OK)
+        .entity(???) // get books from db
+        .`type`(MediaType.APPLICATION_JSON)
+        .build
     }
 
     @GET
@@ -42,9 +50,16 @@ object UsingJaxRs {
     @Produces(Array(MediaType.APPLICATION_JSON))
     def getBookById(@PathParam("id") id: UUID): Response = {
       if ( /* check if there is a book with the given id */ true) {
-        Response.status(Response.Status.OK).entity(???).`type`(MediaType.APPLICATION_JSON).build
+        Response
+          .status(Response.Status.OK)
+          .entity(???)
+          .`type`(MediaType.APPLICATION_JSON)
+          .build
       } else {
-        throw new WebApplicationException(Response.status(Response.Status.NOT_FOUND).entity(s"Book with id $id not found").build())
+        throw new WebApplicationException(Response
+          .status(Response.Status.NOT_FOUND)
+          .entity(s"Book with id $id not found")
+          .build())
       }
     }
   }

@@ -2,14 +2,4 @@ Tapir goals:
 
 * programmer-friendly
 
-* result in code readable also by people not familiar with the library
-
-* human-comprehensible types, which you are not afraid to write down
-
-* discoverable API through standard auto-complete
-
-* separate "business logic" from endpoint definition & documentation
-
-* based purely on case class-based, immutable and reusable data structures
-
-* reasonably type safe
+* more in the docs

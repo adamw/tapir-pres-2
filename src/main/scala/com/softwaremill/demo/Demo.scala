@@ -11,6 +11,7 @@ import tapir.model.{StatusCode, StatusCodes}
 import tapir.openapi.OpenAPI
 import tapir.json.circe._
 import io.circe.generic.auto._
+import tapir.Codec.PlainCodec
 
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
